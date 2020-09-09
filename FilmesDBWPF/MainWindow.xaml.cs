@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FilmesDBWPF.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,5 +25,36 @@ namespace FilmesDBWPF
         {
             InitializeComponent();
         }
+
+        private void btnCadastrar_Click(object sender, RoutedEventArgs e)
+        {
+
+            Context ctx = new Context();
+            Filme f = new Filme();
+
+            f.Titulo = txtTitulo.Text;
+            f.Nota = Convert.ToDouble(txtNota.Text.Replace(".",","));
+
+            ctx.Filmes.Add(f);
+            ctx.SaveChanges();
+
+            txtTitulo.Clear();
+            txtNota.Clear();
+
+            gridFilmes.ItemsSource = ctx.Filmes.ToList();
+
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.ListarDados();
+        }
+
+        private void ListarDados()
+        {
+            Context ctx = new Context();
+            gridFilmes.ItemsSource = ctx.Filmes.ToList();
+        }
+
     }
 }
